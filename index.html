@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordsmith - 1st Grade Vocabulary Game</title>
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>Wordsmith</h1>
+            <p class="subtitle">1st Grade Vocabulary Fun!</p>
+        </header>
+
+        <div class="game-screen">
+            <!-- Start Screen -->
+            <div id="start-screen" class="screen active">
+                <h2>Welcome to Wordsmith!</h2>
+                <p>Can you guess the mystery words?</p>
+                <p>You'll get 3 chances for each word.</p>
+                
+                <div class="name-input-container">
+                    <label for="player-name">What's your name?</label>
+                    <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
+                </div>
+                
+                <div class="grade-selection">
+                    <label>Choose your grade level:</label>
+                    <div class="grade-buttons">
+                        <button id="grade-1" class="grade-button active" data-grade="1">1st Grade</button>
+                        <button id="grade-2" class="grade-button" data-grade="2">2nd Grade</button>
+                        <button id="grade-3" class="grade-button" data-grade="3">3rd Grade</button>
+                    </div>
+                </div>
+                
+                <div class="audio-option">
+                    <label>Enable audio features?</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="audio-toggle" checked>
+                        <label for="audio-toggle"></label>
+                    </div>
+                    <p class="audio-description">Allows the game to speak words and listen for your answers</p>
+                </div>
+                
+                <button id="start-button" class="primary-button">Start Game</button>
+            </div>
+
+            <!-- Game Play Screen -->
+            <div id="game-screen" class="screen">
+                <div class="game-info">
+                    <div class="score">Score: <span id="score">0</span></div>
+                    <div class="lives">Chances: <span id="chances">3</span></div>
+                    <button id="stop-game" class="control-button" title="Stop game">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                </div>
+
+                <!-- Pause Overlay -->
+                <div id="pause-overlay" class="pause-overlay">
+                    <h2>Game Paused</h2>
+                    <p>Current score: <span id="pause-score">0</span></p>
+                    <button id="resume-game" class="primary-button">Resume Game</button>
+                    <button id="exit-game" class="secondary-button">Exit to Main Menu</button>
+                </div>
+
+                <div class="word-container">
+                    <div class="word-display" id="word-display">
+                        <!-- Word letters will appear here -->
+                    </div>
+                    <div class="word-hint">
+                        <p id="hint-text"></p>
+                        <button id="speak-hint-button" class="icon-button" title="Listen to the hint">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="guess-container">
+                    <input type="text" id="guess-input" maxlength="15" placeholder="Type your guess here">
+                    <button id="guess-button" class="secondary-button">Guess</button>
+                </div>
+
+                <div id="feedback" class="feedback"></div>
+                
+                <div class="speech-status">
+                    <div id="listening-indicator" class="listening-indicator hidden">
+                        <i class="fas fa-microphone-alt"></i> Listening...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="game-over-screen" class="screen">
+                <h2>Game Over!</h2>
+                <p>Your final score: <span id="final-score">0</span></p>
+                <button id="play-again-button" class="primary-button">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/scripts/words.js"></script>
+    <script src="src/scripts/audio.js"></script>
+    <script src="src/scripts/game.js"></script>
+</body>
+</html>
