@@ -162,6 +162,20 @@ h1 {
     background-color: #f8f9fa;
     padding: 10px 20px;
     border-radius: 8px;
+    flex-wrap: wrap;
+}
+
+.game-info > div {
+    margin-right: 15px;
+}
+
+.timer {
+    font-weight: bold;
+}
+
+#timer.warning {
+    color: #dc3545;
+    animation: pulse 1s infinite;
 }
 
 .word-container {
@@ -529,4 +543,62 @@ button {
 
 .pause-overlay button {
     margin: 10px 0;
+}
+
+/* Timer options styling */
+.timer-option {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 350px;
+}
+
+.timer-option label {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #6a4caf;
+    font-weight: bold;
+}
+
+.timer-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.timer-control input[type="range"] {
+    flex: 1;
+    height: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #d0bdf4;
+    outline: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.timer-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #6a4caf;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.timer-control span {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #6a4caf;
+    min-width: 30px;
+    text-align: center;
+}
+
+.toggle-switch span {
+    margin-left: 10px;
+    font-size: 1rem;
 }

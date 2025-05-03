@@ -45,6 +45,19 @@
                     <p class="audio-description">Allows the game to speak words and listen for your answers</p>
                 </div>
                 
+                <div class="timer-option">
+                    <label>Timer (minutes):</label>
+                    <div class="timer-control">
+                        <input type="range" id="timer-slider" min="1" max="5" value="2" step="1">
+                        <span id="timer-value">2</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="timer-toggle" checked>
+                        <label for="timer-toggle"></label>
+                        <span>Enable timer</span>
+                    </div>
+                </div>
+                
                 <button id="start-button" class="primary-button">Start Game</button>
             </div>
 
@@ -53,6 +66,7 @@
                 <div class="game-info">
                     <div class="score">Score: <span id="score">0</span></div>
                     <div class="lives">Chances: <span id="chances">3</span></div>
+                    <div class="timer">Time: <span id="timer">2:00</span></div>
                     <button id="stop-game" class="control-button" title="Stop game">
                         <i class="fas fa-stop"></i> Stop
                     </button>

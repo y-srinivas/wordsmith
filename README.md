@@ -2,6 +2,10 @@
 
 A fun vocabulary learning game for elementary school students (1st - 3rd grade).
 
+## Play Online
+
+You can play Wordsmith online at: https://y-srinivas.github.io/wordsmith/
+
 ## Overview
 
 Wordsmith is an interactive word-guessing game designed to help students improve their vocabulary skills. The game presents partially revealed words along with contextual hints, encouraging players to deduce and spell the complete words.
@@ -33,6 +37,8 @@ Wordsmith is an interactive word-guessing game designed to help students improve
 ## Setup
 
 Simply open the `index.html` file in a modern web browser to play the game. No installation or special setup required!
+
+Alternatively, you can play the live version hosted on GitHub Pages: https://y-srinivas.github.io/wordsmith/
 
 ## Browser Compatibility
 

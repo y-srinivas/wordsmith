@@ -41,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let audioEnabled = true;
     let gamePaused = false; // Track if game is paused/stopped
     
+    // Timer variables
+    let timerEnabled = true;
+    let timerDuration = 120; // Default 2 minutes (in seconds)
+    let timeRemaining = 0;
+    let timerInterval = null;
+    let timerPerWord = true; // Always true as we now track per-word time
+    
     // Get player's name with a default if none provided
     function getPlayerName() {
         const name = playerNameInput.value.trim();
@@ -67,6 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
         playerName = getPlayerName();
         audioEnabled = audioToggle.checked;
         
+        // Get timer settings
+        timerEnabled = document.getElementById('timer-toggle').checked;
+        timerDuration = parseInt(document.getElementById('timer-slider').value) * 60; // Convert minutes to seconds
+        
         // Ensure getRandomWordsByGrade is available
         if (typeof window.getRandomWordsByGrade !== 'function') {
             console.error('getRandomWordsByGrade function not found. Make sure words.js is loaded properly.');
@@ -86,6 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Set up first word
         loadNextWord();
+        
+        // Start the timer if enabled
+        if (timerEnabled) {
+            startTimer();
+        } else {
+            document.querySelector('.timer').style.display = 'none';
+        }
         
         // Welcome the player with audio if enabled
         if (audioEnabled && typeof window.speakText === 'function') {
@@ -161,6 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Focus on input
         guessInput.focus();
+        
+        // Start new timer for this word if timer is enabled
+        if (timerEnabled) {
+            startTimer();
+        }
         
         // Read hint if audio is enabled
         if (audioEnabled) {
@@ -323,6 +346,81 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update chances display
     function updateChances() {
         chancesElement.textContent = chances;
+    }
+    
+    // Timer functions
+    function startTimer() {
+        // Clear any existing timer
+        clearInterval(timerInterval);
+        
+        // Initialize time remaining
+        timeRemaining = timerDuration;
+        
+        // Update timer display initially
+        updateTimerDisplay();
+        
+        // Start the timer interval
+        timerInterval = setInterval(() => {
+            if (!gamePaused) {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                // Check if time is up
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    timeExpired();
+                }
+            }
+        }, 1000);
+    }
+    
+    // Update the timer display
+    function updateTimerDisplay() {
+        const timerElement = document.getElementById('timer');
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        
+        // Format with leading zeros
+        timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        // Add warning class when time is running low (less than 30 seconds)
+        if (timeRemaining <= 30) {
+            timerElement.classList.add('warning');
+        } else {
+            timerElement.classList.remove('warning');
+        }
+    }
+    
+    // Handle timer expiration
+    function timeExpired() {
+        // Stop and clean up timer
+        clearInterval(timerInterval);
+        
+        // Give feedback that time is up for this word
+        feedbackElement.textContent = `Time's up for this word, ${playerName}! The word was: ${currentWord.word.toUpperCase()}`;
+        feedbackElement.className = 'feedback incorrect';
+        
+        // Speak time's up message if audio is enabled
+        if (audioEnabled) {
+            speechSynthesis.cancel(); // Cancel any existing speech
+            speakText(`Time's up, ${playerName}! The word was ${currentWord.word}.`);
+        }
+        
+        // Show the full word
+        revealWord(false);
+        
+        // Spell the word if audio is enabled
+        if (audioEnabled) {
+            setTimeout(() => {
+                spellWord(currentWord.word);
+            }, 1000);
+        }
+        
+        // Move to next word after appropriate delay
+        setTimeout(() => {
+            currentWordIndex++;
+            loadNextWord();
+        }, audioEnabled ? 5000 : 3000); // Longer delay if audio is enabled for spelling
     }
     
     // End the game
@@ -523,8 +621,20 @@ document.addEventListener('DOMContentLoaded', () => {
         audioEnabled = audioToggle.checked;
     });
     
-    // Toggle spelling mode button
-    // toggleSpellingButton.addEventListener('click', toggleInputMode);
+    // Timer controls
+    const timerSlider = document.getElementById('timer-slider');
+    const timerValue = document.getElementById('timer-value');
+    const timerToggle = document.getElementById('timer-toggle');
+    
+    // Update timer value display when slider changes
+    timerSlider.addEventListener('input', () => {
+        timerValue.textContent = timerSlider.value;
+    });
+    
+    // Timer toggle
+    timerToggle.addEventListener('change', () => {
+        timerEnabled = timerToggle.checked;
+    });
     
     // Stop game button
     const stopGameButton = document.getElementById('stop-game');
