@@ -248,17 +248,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Small delay to ensure proper playback
                 setTimeout(() => {
                     speakFeedback(feedback);
+                    
+                    // After feedback, spell the word with phonics
+                    setTimeout(() => {
+                        spellWordWithPhonics(currentWord.word);
+                    }, 1500);
                 }, 100);
             }
             
             // Reveal full word with animation
             revealWord(true);
             
-            // Move to next word after delay
+            // Move to next word after longer delay to accommodate phonics spelling
             setTimeout(() => {
                 currentWordIndex++;
                 loadNextWord();
-            }, audioEnabled ? 3000 : 2000); // Longer delay if audio is enabled
+            }, audioEnabled ? 6000 : 2000); // Longer delay if audio is enabled for phonics spelling
         } else {
             // Incorrect guess
             

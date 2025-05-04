@@ -79,6 +79,60 @@ function getPhoneticLetter(letter) {
     return phonetics[letter] || letter;
 }
 
+// Function to spell the word using phonics-based examples for children
+async function spellWordWithPhonics(word) {
+    // First, say "Let's spell the word with phonics"
+    await speakText("Let's spell the word with phonics");
+    
+    // Small pause
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Then spell each letter with its phonetic sound
+    for (const letter of word) {
+        const phoneticSound = getPhoneticSoundForLetter(letter.toLowerCase());
+        await speakText(`The letter ${letter.toUpperCase()} makes the sound "${phoneticSound}" as in ${getPhonicsExample(letter.toLowerCase())}`);
+        await new Promise(resolve => setTimeout(resolve, 600)); // Pause between letters
+    }
+    
+    // Finish by saying the whole word slowly
+    await new Promise(resolve => setTimeout(resolve, 800));
+    await speakText(`Now let's say the whole word slowly: ${word.split('').join('...')}`);
+    
+    // Then at normal speed
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await speakText(`Great job spelling ${word}!`);
+}
+
+// Helper function to get the phonetic sound for each letter
+function getPhoneticSoundForLetter(letter) {
+    const phonicSounds = {
+        'a': 'ah', 'b': 'buh', 'c': 'kuh', 'd': 'duh',
+        'e': 'eh', 'f': 'fff', 'g': 'guh', 'h': 'huh',
+        'i': 'ih', 'j': 'juh', 'k': 'kuh', 'l': 'lll',
+        'm': 'mmm', 'n': 'nnn', 'o': 'oh', 'p': 'puh',
+        'q': 'kwuh', 'r': 'rrr', 's': 'sss', 't': 'tuh',
+        'u': 'uh', 'v': 'vvv', 'w': 'wuh', 'x': 'ks',
+        'y': 'yuh', 'z': 'zzz'
+    };
+    
+    return phonicSounds[letter] || letter;
+}
+
+// Helper function to provide child-friendly examples for each letter
+function getPhonicsExample(letter) {
+    const phonicsExamples = {
+        'a': 'apple', 'b': 'ball', 'c': 'cat', 'd': 'dog',
+        'e': 'egg', 'f': 'fish', 'g': 'goat', 'h': 'hat',
+        'i': 'igloo', 'j': 'jump', 'k': 'kite', 'l': 'lion',
+        'm': 'moon', 'n': 'nest', 'o': 'octopus', 'p': 'pig',
+        'q': 'queen', 'r': 'rabbit', 's': 'sun', 't': 'turtle',
+        'u': 'umbrella', 'v': 'van', 'w': 'water', 'x': 'fox',
+        'y': 'yellow', 'z': 'zebra'
+    };
+    
+    return phonicsExamples[letter] || letter;
+}
+
 // Function to read a hint aloud
 function speakHint(hint) {
     return speakText(hint);
@@ -192,6 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Make audio functions available globally instead of using ES modules
 window.speakText = speakText;
 window.spellWord = spellWord;
+window.spellWordWithPhonics = spellWordWithPhonics;
 window.speakHint = speakHint;
 window.speakFeedback = speakFeedback;
 window.startListening = startListening;
